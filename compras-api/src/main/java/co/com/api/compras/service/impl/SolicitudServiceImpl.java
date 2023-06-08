@@ -4,14 +4,10 @@ import co.com.api.compras.config.SolicitudMapper;
 import co.com.api.compras.dto.SolicitudDTO;
 import co.com.api.compras.repository.SolicitudRepository;
 import co.com.api.compras.service.SolicitudService;
-import co.com.api.compras.utils.Usuario;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @ApplicationScoped
@@ -22,13 +18,8 @@ public class SolicitudServiceImpl implements SolicitudService {
     private  final SolicitudMapper mapper;
 
     @Override
-    public Uni<List<SolicitudDTO>> listAll() {
-        return mongoDb.getAll()
-                .onItem()
-                .transform(solicituds -> solicituds
-                        .stream()
-                        .map(mapper::toDto)
-                        .collect(Collectors.toList()));
+    public Multi<SolicitudDTO> listAll() {
+        return mongoDb.getAll().map(mapper::toDto);
     }
 
     @Override
@@ -37,8 +28,8 @@ public class SolicitudServiceImpl implements SolicitudService {
     }
 
     @Override
-    public Multi<SolicitudDTO> listByUsuario(Usuario usuario) {
-        return mongoDb.searchByUsuario(usuario).map(mapper::toDto);
+    public Multi<SolicitudDTO> listByPropietario(String propietario) {
+        return mongoDb.searchByPropietario(propietario).map(mapper::toDto);
     }
 
     @Override
@@ -48,7 +39,6 @@ public class SolicitudServiceImpl implements SolicitudService {
 
     @Override
     public Uni<SolicitudDTO> update(SolicitudDTO solicitudDTO) {
-        System.out.println(solicitudDTO);
         return mongoDb.modify(mapper.toEntity(solicitudDTO)).map(mapper::toDto);
     }
 

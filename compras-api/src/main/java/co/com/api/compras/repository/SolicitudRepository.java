@@ -1,31 +1,28 @@
 package co.com.api.compras.repository;
 
 import co.com.api.compras.entity.Solicitud;
-import co.com.api.compras.utils.Usuario;
 import io.quarkus.mongodb.panache.reactive.ReactivePanacheMongoRepositoryBase;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.List;
 
 @ApplicationScoped
 public class SolicitudRepository implements ReactivePanacheMongoRepositoryBase<Solicitud, String> {
 
-    public Uni<List<Solicitud>> getAll(){
-        return findAll().stream().collect().asList();
+    public Multi<Solicitud> getAll(){
+        return streamAll();
     }
 
     public Uni<Solicitud> searchById(String idSolicitud){
         return find("id", idSolicitud).firstResult();
     }
 
-    public Multi<Solicitud> searchByUsuario(Usuario usuario){
-       return findAll()
-              .stream()
+    public Multi<Solicitud> searchByPropietario(String propietario){
+       return streamAll()
            .filter(solicitud -> solicitud
-                      .getUsuario()
-                  .equals(usuario));
+                      .getUsuario().getTarjeta().getPropietario()
+                  .equals(propietario));
     }
 
     public Uni<Solicitud> add(Solicitud solicitud){
@@ -36,10 +33,7 @@ public class SolicitudRepository implements ReactivePanacheMongoRepositoryBase<S
         return Uni.createFrom()
                 .item(solicitud)
                 .onItem()
-                .transformToUni(solicitud1 -> {
-                    System.out.println(solicitud1);
-                    return remove(solicitud1.getSolicitudId());
-                })
+                .transformToUni(solicitud1 -> remove(solicitud1.getSolicitudId()))
                         .onItem()
                         .transformToUni(aBoolean -> add(solicitud));
     }

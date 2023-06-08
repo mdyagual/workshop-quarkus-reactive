@@ -1,18 +1,15 @@
 package co.com.api.compras.service;
 
 import co.com.api.compras.dto.SolicitudDTO;
-import co.com.api.compras.utils.Usuario;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 
-import java.util.List;
-
 public interface SolicitudService {
-    Uni<List<SolicitudDTO>> listAll();
+    Multi<SolicitudDTO> listAll();
 
     Uni<SolicitudDTO> listById(String id);
 
-    Multi<SolicitudDTO> listByUsuario(Usuario usuario);
+    Multi<SolicitudDTO> listByPropietario(String propietario);
 
     Uni<SolicitudDTO> save(SolicitudDTO solicitudDTO);
 

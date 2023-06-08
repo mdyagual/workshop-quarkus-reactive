@@ -2,7 +2,7 @@ package co.com.api.compras.resources;
 
 import co.com.api.compras.dto.SolicitudDTO;
 import co.com.api.compras.service.SolicitudService;
-import co.com.api.compras.utils.Usuario;
+import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -16,8 +16,8 @@ public class SolicitudResource {
     private final SolicitudService service;
 
     @GET
-    public Uni<Response> obtenerTodo(){
-        return service.listAll().onItem().transform(solicitudDTOS -> Response.ok(solicitudDTOS).build());
+    public Multi<Response> obtenerTodo(){
+        return service.listAll().onItem().transform(solicitudDTO -> Response.ok(solicitudDTO).build());
     }
 
     @GET
@@ -27,9 +27,9 @@ public class SolicitudResource {
     }
 
     @GET
-    @Path("/usuario")
-    public Uni<Response> obtenerPorUsuario(Usuario usuario){
-        return  service.listByUsuario(usuario).toUni().onItem().transform(solicitudDTO -> Response.ok(solicitudDTO).build());
+    @Path("/{propietario}")
+    public Multi<Response> obtenerPorUsuario(@PathParam("propietario") String propietario){
+        return  service.listByPropietario(propietario).onItem().transform(solicitudDTO -> Response.ok(solicitudDTO).build());
     }
 
     @POST
