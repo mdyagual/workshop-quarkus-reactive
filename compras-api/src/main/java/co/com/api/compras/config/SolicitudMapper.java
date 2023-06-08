@@ -2,14 +2,26 @@ package co.com.api.compras.config;
 
 import co.com.api.compras.dto.SolicitudDTO;
 import co.com.api.compras.entity.Solicitud;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "jakarta", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface SolicitudMapper {
-    Solicitud toEntity (SolicitudDTO solicitudDTO);
+    @Mapping(target = "solicitudId", ignore = true)
+    @Mapping(target = "timestamp", ignore = true)
+    Solicitud toEntity(SolicitudDTO solicitudDTO);
 
-    @Mapping(target = "id", expression = "java(solicitud.getId())")
+
+
+    @AfterMapping
+    default void mapId(SolicitudDTO solicitudDTO, @MappingTarget Solicitud solicitud) {
+        if (solicitudDTO.getSolicitudId() != null) {
+            solicitud.setSolicitudId(solicitudDTO.getSolicitudId());
+        }
+    }
+
+    @Mapping(target = "solicitudId", expression  = "java(solicitud.getSolicitudId())")
+    @Mapping(target = "timestamp", expression = "java(solicitud.getTimestamp())")
     SolicitudDTO toDto (Solicitud solicitud);
+
+
 }
