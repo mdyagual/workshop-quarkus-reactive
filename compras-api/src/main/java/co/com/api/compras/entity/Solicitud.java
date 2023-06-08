@@ -16,8 +16,8 @@ import java.util.UUID;
 @MongoEntity(collection = "solicitudes")
 public class Solicitud {
     @BsonProperty("id")
-    private String id= UUID.randomUUID().toString().substring(0, 10);;
+    private String solicitudId = UUID.randomUUID().toString().substring(0, 10);
     private Usuario usuario;
     private Double total;
-    private Date timestamp;
+    private Date timestamp = new Date();
 }

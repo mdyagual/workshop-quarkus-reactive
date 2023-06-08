@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SolicitudDTO {
-    private String id;
+    private String solicitudId;
     private Usuario usuario;
     private Double total;
     private Date timestamp;
