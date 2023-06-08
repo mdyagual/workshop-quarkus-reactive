@@ -27,7 +27,7 @@ public class SolicitudResource {
     }
 
     @GET
-    @Path("/{propietario}")
+    @Path("/propietario/{propietario}")
     public Multi<Response> obtenerPorUsuario(@PathParam("propietario") String propietario){
         return  service.listByPropietario(propietario).onItem().transform(solicitudDTO -> Response.ok(solicitudDTO).build());
     }
