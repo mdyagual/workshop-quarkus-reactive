@@ -26,6 +26,7 @@ public class SolicitudRepository implements ReactivePanacheMongoRepositoryBase<S
     }
 
     public Uni<Solicitud> add(Solicitud solicitud){
+        solicitud.setCalculate();
         return persist(solicitud).call(solicitud1 -> searchById(solicitud1.getSolicitudId()));
     }
 
