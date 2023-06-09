@@ -15,7 +15,7 @@ public class SolicitudRepository implements ReactivePanacheMongoRepositoryBase<S
     }
 
     public Uni<Solicitud> searchById(String idSolicitud){
-        return find("id", idSolicitud).firstResult();
+        return find("solicitudId", idSolicitud).firstResult();
     }
 
     public Multi<Solicitud> searchByPropietario(String propietario){
@@ -36,10 +36,11 @@ public class SolicitudRepository implements ReactivePanacheMongoRepositoryBase<S
                 .transformToUni(solicitud1 -> remove(solicitud1.getSolicitudId()))
                         .onItem()
                         .transformToUni(aBoolean -> add(solicitud));
+
     }
 
     public Uni<Long> remove(String idSolicitud){
-        return delete("id", idSolicitud);
+        return delete("solicitudId", idSolicitud);
     }
 
 
