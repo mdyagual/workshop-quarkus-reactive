@@ -4,6 +4,7 @@ import co.com.api.compras.dto.SolicitudDTO;
 import co.com.api.compras.service.SolicitudService;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -33,12 +34,12 @@ public class SolicitudResource {
     }
 
     @POST
-    public Uni<Response> guardar(SolicitudDTO solicitudDTO){
+    public Uni<Response> guardar(@Valid SolicitudDTO solicitudDTO){
         return service.save(solicitudDTO).onItem().transform(solicitudDTO1 -> Response.status(201).entity(solicitudDTO1).build());
     }
 
     @PUT
-    public Uni<Response> editar(SolicitudDTO solicitudDTO){
+    public Uni<Response> editar(@Valid SolicitudDTO solicitudDTO){
         return service.update(solicitudDTO).onItem().transform(solicitudDTO1 -> Response.status(202).entity(solicitudDTO1).build());
     }
 
