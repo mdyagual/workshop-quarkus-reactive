@@ -17,3 +17,5 @@ public interface SolicitudService {
     @PUT
     SolicitudDTO update(SolicitudDTO solicitudDTO);
 }
+
+
