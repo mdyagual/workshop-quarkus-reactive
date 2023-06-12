@@ -1,5 +1,6 @@
 package co.com.api.pagos.client;
 
+import co.com.api.pagos.client.utils.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
