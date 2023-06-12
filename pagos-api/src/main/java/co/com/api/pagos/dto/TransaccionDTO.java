@@ -1,6 +1,7 @@
 package co.com.api.pagos.dto;
 
 import co.com.api.pagos.client.SolicitudDTO;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransaccionDTO {
-    private String id;
+    private String transaccionId;
+    @Valid
     private SolicitudDTO solicitudDTO;
     private Boolean estado;
     private Date timestamp;
